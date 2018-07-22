@@ -127,9 +127,13 @@ func (result Result) ParseLong(data []byte) Result {
 		stringVal := arr[i+1]
 
 		if key == "PluginNames" {
-			stringVal = strings.Split(stringVal, ":")[1]
-			stringVal = strings.TrimLeft(stringVal, " ")
-			val = strings.Split(stringVal, "; ")
+			if len(strings.Split(stringVal, ":")) == 1 {
+				val = []string{}
+			} else {
+				stringVal = strings.Split(stringVal, ":")[1]
+				stringVal = strings.TrimLeft(stringVal, " ")
+				val = strings.Split(stringVal, "; ")
+			}
 		} else if key == "OnlinePlayers" || key == "MaximumPlayers" {
 			i, _ := strconv.ParseInt(stringVal, 0, 32)
 			val = int(i)
